@@ -14,8 +14,10 @@ public class Driver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float moveAmount = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        if (Input.GetButtonDown("Fire1")) Debug.Log("pressed fire1!");
+        float moveAmount = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * (Input.GetButton("Fire1") ? 3f : 1f);
         float steerAmount = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
+
         transform.Translate(0, moveAmount, 0);
         transform.Rotate(0, 0, -steerAmount); // opposite direction
     }
