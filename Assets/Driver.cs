@@ -5,17 +5,31 @@ using UnityEngine;
 public class Driver : MonoBehaviour
 {
     [SerializeField] float steerSpeed = 100f;
+    [SerializeField] float fastSpeed = 10f;
+    [SerializeField] float slowSpeed = 5f;
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float extraSpeedUp = 2f;
+
     // Start is called before the first frame update
     void Start()
     {
     }
-
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        moveSpeed = slowSpeed;
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "boost")
+        {
+            moveSpeed = fastSpeed;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1")) Debug.Log("pressed fire1!");
-        float moveAmount = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * (Input.GetButton("Fire1") ? 3f : 1f);
+        float moveAmount = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed * (Input.GetButton("Fire1") ? extraSpeedUp
+         : 1f);
         float steerAmount = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
 
         transform.Translate(0, moveAmount, 0);
